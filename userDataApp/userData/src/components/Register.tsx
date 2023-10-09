@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState , useContext} from "react";
 import Axios from "axios";
-
+import AuthContext from "../Context/AuthContext";
 function Register() {
+  const { login } = useContext(AuthContext);
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [ error, setError ] = useState<string | null>(null);
@@ -15,6 +16,7 @@ function Register() {
         password,
         // Include other form data here
       });
+      login(response.data);
       // Handle the response (e.g., show a success message or navigate to the login page)
     } catch (error) {
       // Handle errors (e.g., show an error message)

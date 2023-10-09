@@ -1,26 +1,28 @@
-import React, { useContext, useState } from 'react';
+import React, { useState, useContext } from 'react';
+import AuthContext from '../Context/AuthContext'; // Import your context
 import Axios from 'axios';
-import AuthContext from './Context/AuthContext';
 
-
-const Login = () => {
-  const { login } = useContext(AuthContext);
-  const [username, setUsername ] = useState<string>("");
+function Login() {
+  const { login } = useContext(AuthContext); // Access the login function from the context
+  const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null); // State for error handling
 
-  const handleSubmit =async (e: React.FormEvent ) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await Axios.post("/api/login", {
         username,
         password,
       });
-      // Handle the response (e.g. , set user information in state or local storage)
-      login(response.data)
-    } catch(error) {
-      //handle errors (e.g., show and error message)
-      setError("Login failed. Please check your credentials")
+
+      // Assuming the response contains user data upon successful login
+      login(response.data); // Call the login function with user data to set the user state
+
+      // Optionally, you can redirect the user to the dashboard or perform other actions.
+    } catch (error) {
+      // Handle errors (e.g., show an error message)
+      setError("Login failed. Please check your credentials and try again.");
     }
   }
 
@@ -29,7 +31,7 @@ const Login = () => {
       <div className="bg-white p-8 rounded shadow-md w-1/3">
         <h1 className="text-2xl font-bold mb-4">Login</h1>
         <form onSubmit={handleSubmit}>
-         {error && <div className='text-red-600 mb-4'>{error}</div>}
+          {error && <div className="text-red-600 mb-4">{error}</div>}
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">Username:</label>
             <input
@@ -55,7 +57,7 @@ const Login = () => {
         <p className="mt-4">Don't have an account? <a href="/register" className="text-blue-500">Register here</a></p>
       </div>
     </div>
-  )
+  );
 }
 
-export default Login
+export default Login;

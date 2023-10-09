@@ -1,4 +1,4 @@
-import React, { createContext, useContext , useReducer, useState} from 'react'
+import React, { createContext, useContext ,  useState, ReactNode} from 'react'
 interface User {
     id: number ;
     username: string;
@@ -14,16 +14,20 @@ const AuthContext = createContext<AuthContextType>({
     login: () => {},
     logout: () => {},
 })
-
-export const AuthProvider: React.FC = ({children}) => {
-    const [user, setUser] = useState<User | null>(null);;
+interface AuthProviderProps {
+    children: ReactNode;
+}
+export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
+    const [user, setUser] = useState<User | null>(null);
     const login = (userData: User) => {
      //Perform logout (e.g., clear user data)
      // Update user state to null
+     setUser(userData);
     };
     const logout = () => {
         //Perform logout (e.g., clear user data)
         // Update user state to null 
+        setUser(null);
     };
     
    return (
