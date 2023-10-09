@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Axios from 'axios';
+import AuthContext from './Context/AuthContext';
+
 
 const Login = () => {
+  const { login } = useContext(AuthContext);
   const [username, setUsername ] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string | null>(null); // State for error handling
+
   const handleSubmit =async (e: React.FormEvent ) => {
     e.preventDefault();
     try {
@@ -12,8 +17,10 @@ const Login = () => {
         password,
       });
       // Handle the response (e.g. , set user information in state or local storage)
+      login(response.data)
     } catch(error) {
       //handle errors (e.g., show and error message)
+      setError("Login failed. Please check your credentials")
     }
   }
 
@@ -22,6 +29,7 @@ const Login = () => {
       <div className="bg-white p-8 rounded shadow-md w-1/3">
         <h1 className="text-2xl font-bold mb-4">Login</h1>
         <form onSubmit={handleSubmit}>
+         {error && <div className='text-red-600 mb-4'>{error}</div>}
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">Username:</label>
             <input
