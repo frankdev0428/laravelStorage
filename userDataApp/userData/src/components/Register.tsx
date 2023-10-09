@@ -4,6 +4,7 @@ import Axios from "axios";
 function Register() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [ error, setError ] = useState<string | null>(null);
   // Add more fields as needed
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -17,6 +18,7 @@ function Register() {
       // Handle the response (e.g., show a success message or navigate to the login page)
     } catch (error) {
       // Handle errors (e.g., show an error message)
+      setError("Registration failed . Please check your inout and try again.");
     }
   }
 
@@ -25,6 +27,7 @@ function Register() {
       <div className="bg-white p-8 rounded shadow-md w-1/3">
         <h1 className="text-2xl font-bold mb-4">Register</h1>
         <form onSubmit={handleSubmit}>
+          {error && <div className="text-red-600 mb-4">{error}</div>}
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">Username:</label>
             <input
